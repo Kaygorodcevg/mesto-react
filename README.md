@@ -1,6 +1,6 @@
 # mesto-react
 ## Проектная работа. Яндекс практикум.
-[Ссылка на проект](https://kaygorodcevg.github.io/mesto/)
+[Ссылка на проект](https://kaygorodcevg.github.io/mesto-react/)
 
 ### Планы по доработке
 - Продолжить перенос функционала проекта на React
