@@ -1,36 +1,26 @@
-import React from "react";
+import {useEffect, useState} from 'react';
 import api from "../utils/Api";
 import Card from "./Card";
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
-  const [userName, setUserName] = React.useState();
-  const [userDescription, setUserDescription] = React.useState();
-  const [userAvatar, setUserAvatar] = React.useState();
-  const [cards, setCards] = React.useState([]);
+  const [userName, setUserName] = useState("");
+  const [userDescription, setUserDescription] = useState("");
+  const [userAvatar, setUserAvatar] = useState("");
+  const [cards, setCards] = useState([]);
 
-  React.useEffect(() => {
-    api
-      .getUserInfo()
-      .then((data) => {
-        setUserName(data.name);
-        setUserDescription(data.about);
-        setUserAvatar(data.avatar);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
-  React.useEffect(() => {
-    api
-      .getInitialCards()
-      .then((data) => {
+  useEffect(() => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, cardsData]) => {
+        setUserName(userData.name);
+        setUserDescription(userData.about);
+        setUserAvatar(userData.avatar);
         setCards(
-          data.map((item) => ({
+          cardsData.map((item) => ({
             id: item._id,
             link: item.link,
             name: item.name,
             likes: item.likes,
-          }))
-        );
+          })))
       })
       .catch((err) => console.log(err));
   }, []);
@@ -40,11 +30,11 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
       <section className="profile content__profile">
         <div className="profile__avatar-wrapper">
           <img src={userAvatar} alt="аватар" className="profile__image"></img>
-          <buttom
+          <button
             type="button"
             className="profile__avatarar-edit-button"
             onClick={onEditAvatar}
-          ></buttom>
+          ></button>
         </div>
         <div className="profile__info">
           <div className="profile__edit-wrapper">

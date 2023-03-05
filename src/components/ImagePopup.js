@@ -1,27 +1,22 @@
 import React from "react";
 
-function ImagePopup(props) {
+function ImagePopup({card, onClose}) {
   return (
     <div
-      className={
-        props.card
-          ? `popup popup_${props.name} popup_opened`
-          : `popup popup_${props.name}`
-      }
-    >
+      className={ `popup popup_zoom-image ${(JSON.stringify(card) !== '{}') && "popup_opened"}`}>
       <div className="popup__zoom-wrapper">
         <button
           type="button"
           className="popup__close-icon popup__close-icon_zoom-image"
-          onClick={props.onClose}
+          onClick={onClose}
         ></button>
         <figure className="popup__figure">
           <img
-            src={props.card ? props.card.link : ""}
+            src={card?.link}
             className="popup__picture"
           ></img>
           <figcaption className="popup__figcaption">
-            {props.card ? props.card.name : ""}
+            {card?.name}
           </figcaption>
         </figure>
       </div>
